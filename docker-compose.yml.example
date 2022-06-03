@@ -3,7 +3,7 @@ version: '3'
 services:
 
   web:
-    container_name: project_identifyer_web
+    container_name: project_identifier_web
     build:
       context: ./container/nginx/
     volumes:
@@ -18,10 +18,10 @@ services:
       - 80:80
       - 443:443
     networks:
-      - project_identifyer-network
+      - project_identifier-network
 
   app:
-    container_name: project_identifyer_app
+    container_name: project_identifier_app
     build:
       context: container/php/fpm
 #      target: php_base
@@ -37,18 +37,18 @@ services:
       - ${DOCKER_DIR}/container/php/fpm/config/xdebug.ini:/usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
       - ${DOCKER_DIR}/container/php/fpm/config/auto_prepend_file.php:/auto_prepend_file.php
     networks:
-      - project_identifyer-network
+      - project_identifier-network
     extra_hosts:
       - "host.docker.internal:${INTERNAL_IP}"
 
   memcached:
-    container_name: project_identifyer_memcached
+    container_name: project_identifier_memcached
     image: 'bitnami/memcached:latest'
     networks:
-      - project_identifyer-network
+      - project_identifier-network
 
 #  postgres:
-#    container_name: project_identifyer_postgres
+#    container_name: project_identifier_postgres
 #    image: postgres:13.4
 #    environment:
 #      POSTGRES_USER: postgress
@@ -59,17 +59,17 @@ services:
 #    ports:
 #      - 5432:5432
 #    networks:
-#      - project_identifyer-network
+#      - project_identifier-network
 
 #  composer:
-#    container_name: project_identifyer_composer
+#    container_name: project_identifier_composer
 #    #    command: composer update --ignore-platform-reqs
 #    command: composer install --ignore-platform-reqs
 #    volumes:
 #      - ${CODE_DIR}:/app
 
 networks:
-  project_identifyer-network:
+  project_identifier-network:
     driver: bridge
 #Volumes
 volumes:

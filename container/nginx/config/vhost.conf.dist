@@ -28,5 +28,5 @@ server {
 
 ## PHP-FPM ##
 upstream php-fpm {
-    server project_identifyer_app:9000;
+    server project_identifier_app:9000;
 }
