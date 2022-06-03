@@ -1,0 +1,77 @@
+version: '3'
+
+services:
+
+  web:
+    container_name: project_identifyer_web
+    build:
+      context: ./container/nginx/
+    volumes:
+      - ${CODE_DIR}:/var/www
+      - ${DOCKER_DIR}/container/nginx/certs:/certs
+      - ${DOCKER_DIR}/container/nginx/config/proxy.conf:/etc/nginx/conf.d/proxy.conf
+      - ${DOCKER_DIR}/container/nginx/config/vhost.conf:/etc/nginx/conf.d/default.conf
+      - ${DOCKER_DIR}/container/nginx/logs:/etc/logs/nginx
+    depends_on:
+      - app
+    ports:
+      - 80:80
+      - 443:443
+    networks:
+      - project_identifyer-network
+
+  app:
+    container_name: project_identifyer_app
+    build:
+      context: container/php/fpm
+#      target: php_base
+      target: php_xdebug
+    environment:
+      XDEBUG_CONFIG: ${INTERNAL_IP}
+      PHP_IDE_CONFIG: serverName=xdebug
+    volumes:
+      - ${CODE_DIR}:/var/www
+      - ${DOCKER_DIR}/container/php/logs:/var/log
+      - ${DOCKER_DIR}/container/php/fpm/config/uploads.ini:/usr/local/etc/php/conf.d/custom.ini
+      - ${DOCKER_DIR}/container/php/fpm/config/error_reporting.ini:/usr/local/etc/php/conf.d/error_reporting.ini
+      - ${DOCKER_DIR}/container/php/fpm/config/xdebug.ini:/usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
+      - ${DOCKER_DIR}/container/php/fpm/config/auto_prepend_file.php:/auto_prepend_file.php
+    networks:
+      - project_identifyer-network
+    extra_hosts:
+      - "host.docker.internal:${INTERNAL_IP}"
+
+  memcached:
+    container_name: project_identifyer_memcached
+    image: 'bitnami/memcached:latest'
+    networks:
+      - project_identifyer-network
+
+#  postgres:
+#    container_name: project_identifyer_postgres
+#    image: postgres:13.4
+#    environment:
+#      POSTGRES_USER: postgress
+#      POSTGRES_PASSWORD: password
+#    volumes:
+#      - ${DOCKER_DIR}/container/postgresql/data:/var/lib/postgresql/data
+#      - ${DOCKER_DIR}/container/postgresql/dump:/dump
+#    ports:
+#      - 5432:5432
+#    networks:
+#      - project_identifyer-network
+
+#  composer:
+#    container_name: project_identifyer_composer
+#    #    command: composer update --ignore-platform-reqs
+#    command: composer install --ignore-platform-reqs
+#    volumes:
+#      - ${CODE_DIR}:/app
+
+networks:
+  project_identifyer-network:
+    driver: bridge
+#Volumes
+volumes:
+  dbdata:
+    driver: local
