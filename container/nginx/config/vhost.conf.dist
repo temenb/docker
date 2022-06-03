@@ -1,8 +1,8 @@
 server {
     listen 80;
-    root /app/public;
+    root /var/www;
     index index.php index.html;
-    server_name draco.loc;
+    server_name project_identifier.loc;
     error_log /etc/logs/nginx/nginx_error.log;
     access_log /etc/logs/nginx/nginx_access.log;
     charset utf-8;
