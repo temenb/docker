@@ -6,7 +6,7 @@
 * sed -i "s/project_identifyer/${APP_NAME}/g" docker-compose.yml container/nginx/config/vhost.conf
 # Run
 * docker-compose up -d
-# setup xdebug
+# setup phpstorm xdebug
 * open Settings>Servers
 * create new server:
   * name xdebug
