@@ -48,7 +48,7 @@ services:
 #    image: 'bitnami/memcached:latest'
 #    networks:
 #      - project_identifier-network
-
+#
 #  postgres:
 #    container_name: project_identifier_postgres
 #    image: postgres:13.4
@@ -62,7 +62,7 @@ services:
 #      - 5432:5432
 #    networks:
 #      - project_identifier-network
-
+#
 #  composer:
 #    container_name: project_identifier_composer
 #    #    command: composer update --ignore-platform-reqs
