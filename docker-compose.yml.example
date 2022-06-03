@@ -19,7 +19,7 @@ services:
       - 443:443
     networks:
       - project_identifier-network
-    restart: always
+#    restart: always
 
   app:
     container_name: project_identifier_app
@@ -36,13 +36,13 @@ services:
       - ${DOCKER_DIR}/container/php/fpm/config/uploads.ini:/usr/local/etc/php/conf.d/custom.ini
       - ${DOCKER_DIR}/container/php/fpm/config/error_reporting.ini:/usr/local/etc/php/conf.d/error_reporting.ini
       - ${DOCKER_DIR}/container/php/fpm/config/xdebug.ini:/usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
-      - ${DOCKER_DIR}/container/php/fpm/config/auto_prepend_file.ini:/usr/local/etc/php/conf.d/auto_prepend_file.ini
-      - ${DOCKER_DIR}/container/php/fpm/config/auto_prepend_file.php:/auto_prepend_file.php
+#      - ${DOCKER_DIR}/container/php/fpm/config/auto_prepend_file.ini:/usr/local/etc/php/conf.d/auto_prepend_file.ini
+#      - ${DOCKER_DIR}/container/php/fpm/config/auto_prepend_file.php:/auto_prepend_file.php
     networks:
       - project_identifier-network
     extra_hosts:
       - "host.docker.internal:${INTERNAL_IP}"
-    restart: always
+#    restart: always
 
 #  memcached:
 #    container_name: project_identifier_memcached
