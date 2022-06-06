@@ -65,6 +65,7 @@ services:
 #
 #  composer:
 #    container_name: project_identifier_composer
+#    image: composer
 #    #    command: composer update --ignore-platform-reqs
 #    command: composer install --ignore-platform-reqs
 #    volumes:
