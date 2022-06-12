@@ -1,4 +1,4 @@
-FROM php:7.2-fpm as php_base
+FROM php:8.1.0-fpm as php_base
 
 LABEL maintainer "Oleksii Temchenko <otemchenko@notesco.com>"
 
@@ -29,22 +29,22 @@ RUN buildDeps=" \
 	&& apt-get update && apt-get install -y $buildDeps --no-install-recommends && rm -rf /var/lib/apt/lists/* \
 	&& docker-php-ext-configure ldap --with-libdir=lib/x86_64-linux-gnu \
 	&& docker-php-ext-install ldap \
-	&& docker-php-ext-install mbstring \
-	&& docker-php-ext-install zip \
+#	&& docker-php-ext-install mbstring \
+#	&& docker-php-ext-install zip \
     && docker-php-ext-install pdo \
     && docker-php-ext-install pgsql pdo_pgsql \
     && docker-php-ext-install mysqli pdo_mysql  \
     && docker-php-ext-enable pdo_mysql
 RUN pecl install rdkafka \
     && docker-php-ext-enable rdkafka
-RUN apt-get update && apt-get install -y wget \
-    && wget "https://pecl.php.net/get/memcache-4.0.5.2.tgz" \
-    && tar zxvf memcache-4.0.5.2.tgz \
-    && cd memcache-4.0.5.2 && phpize && ./configure && make && make install \
-    && echo "extension=memcache.so" > /usr/local/etc/php/conf.d/memcache.ini
+#RUN apt-get update && apt-get install -y wget \
+#    && wget "https://pecl.php.net/get/memcache-4.0.5.2.tgz" \
+#    && tar zxvf memcache-4.0.5.2.tgz \
+#    && cd memcache-4.0.5.2 && phpize && ./configure && make && make install \
+#    && echo "extension=memcache.so" > /usr/local/etc/php/conf.d/memcache.ini
 
-RUN pecl install protobuf \
-    && docker-php-ext-enable protobuf
+#RUN pecl install protobuf \
+#    && docker-php-ext-enable protobuf
 
 RUN apt-get purge -y --auto-remove $buildDeps
 
@@ -83,10 +83,10 @@ RUN sed -i 's/;\(cgi\.fix_pathinfo=\)1/\10/' /usr/local/etc/php/php.ini
 RUN mkdir /.composer \
     && chmod 0777 /.composer
 
-USER 1000
-RUN composer global require phpunit/phpunit "^5.7.12"
-USER root
-RUN ln -s /.composer/vendor/phpunit/phpunit/phpunit /usr/local/bin/phpunit
+#USER 1000
+#RUN composer global require phpunit/phpunit
+#USER root
+#RUN ln -s /.composer/vendor/phpunit/phpunit/phpunit /usr/local/bin/phpunit
 
 USER 1000
 WORKDIR "/var/www"
